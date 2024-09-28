@@ -1,0 +1,38 @@
+﻿
+<h3>Voting</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Votes</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Items)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Votes</td>
+                <button class="btn btn-danger" @onclick="(() => Vote(item.Id))">Vote</button>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    
+    [Parameter]
+    public IList<Candidate> Items { get; set; }
+    
+    private void Vote(int id)
+    {
+        var data = Items.FirstOrDefault(c => c.Id == id);
+        data.Votes = data.Votes + 1;
+        var index = Items.IndexOf(data);
+        Items[index] = data;
+    }
+    
+}

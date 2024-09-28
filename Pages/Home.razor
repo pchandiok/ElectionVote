@@ -2,6 +2,41 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1 class="text-center">Online Election</h1>
+<div class="container">
+    <h2>Total No. of Candidates: @candidateCount</h2>
+    <h2>Total Voters @voterCount</h2>
+    <div class="row mt-2">
+        <div class="col-6">
+            <AddCandidate SetCandidate="GetCandidate" />
+        </div>
+        <div class="col-6">
+            <Voters SetVoters="GetVoters" />
+        </div>
+    </div>
+    
+    @if(Candidates.Count() > 0)
+    {
+        <Voting Items="@Candidates" />
+    }
+</div>
 
-Welcome to your new app.
+@code
+{
+    private int candidateCount { get; set; } = 0;
+    private int voterCount { get; set; } = 0;
+    private IList<Candidate> Candidates = new List<Candidate>();
+
+    private void GetCandidate((string Name, int Votes) candidate)
+    {
+        Candidates.Add(
+            new Candidate { Id = candidateCount+1, Name = candidate.Name, Votes = candidate.Votes}
+        );
+        candidateCount = candidateCount + 1;
+    }
+
+    private void GetVoters(int voters)
+    {
+        voterCount = voters;
+    }
+}

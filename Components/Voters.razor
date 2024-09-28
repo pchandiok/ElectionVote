@@ -1,0 +1,27 @@
+﻿<div class="row">
+    <div class="col-2">
+        <h4>No. of Voters</h4>
+    </div>
+    <div class="col-4">
+        <select @onchange="RegisterVoters" class="form-control">
+            <option value="">---</option>
+            @for(var i = 0; i<99;i++)
+            {
+                <option value="@(i+1)">@(i+1)</option>
+            }
+        </select>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<int> SetVoters { get; set; }
+    
+    private int voter { get; set; }
+    
+    private void RegisterVoters(ChangeEventArgs e)
+    {
+        voter = int.Parse(e.Value.ToString());
+        SetVoters.InvokeAsync(voter);
+    }
+}

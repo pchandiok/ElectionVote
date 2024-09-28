@@ -1,0 +1,26 @@
+﻿<h3>Candidate</h3>
+<div class="row form-group">
+    <div class="col-1">
+        <label for="Name">Name: </label>
+    </div>
+    <div class="col-4">
+        <input type="text" class="form-control" @bind="Name" />
+    </div>
+    <div class="col-4">
+        <button class="btn btn-success" @onclick="RegisterCandidate" disabled="@(count>=10)">Add Candidate</button>
+    </div>
+</div>
+
+@code {
+    private string Name { get; set; }
+    
+    [Parameter]
+    public EventCallback<(string, int)> SetCandidate { get; set; }
+    private int count { get; set; } = 0;
+    private void RegisterCandidate()
+    {
+        int Votes = 0;
+        count = count + 1;
+        SetCandidate.InvokeAsync((Name, Votes));
+    }
+}
